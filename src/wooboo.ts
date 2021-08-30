@@ -6,6 +6,15 @@ export interface Anchor {
     modifiers?: WooboModifier[]
 }
 export interface WooboModifier {
+	/**
+	 * Modifer executor method
+	 * @param val The stringified value passed to the `value` property
+	 * @param rawValue The raw value passed to the `value` property
+	 * @param token The token without the `{}`
+	 * @param rawString The whole string inputted into the formatter
+	 * @param originalValue The original value of `value` before any modifiers were applied
+	 * @param self The class that the current modifier is executed in
+	 */
     execute(val: string, rawValue: string | number | boolean, token: string, rawString: string, originalValue: string | number | boolean, self: Wooboo): string
 }
 

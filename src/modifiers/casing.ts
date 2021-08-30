@@ -12,3 +12,9 @@ export class LowerCase implements WooboModifier {
         return val.toLowerCase()
     }
 }
+
+export class CapitalizeFirst implements WooboModifier {
+	execute(val: string, rawValue: string | number | boolean, token: string): string {
+		return val.charAt(0).toUpperCase() + val.slice(1);
+	}
+}
