@@ -8,8 +8,10 @@
     "target": "es2019",
     "outDir": "dist",
     "moduleResolution": "node",
-    "lib": ["es2019", "dom"],
+    "lib": ["es2019"],
     "rootDir": "./src",
     "esModuleInterop": true,
-  }
+    "declaration": true
+  },
+  "exclude": ["node_modules", "dist"]
 }
