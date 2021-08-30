@@ -18,7 +18,7 @@ const output = formatter.fmt("Hello, my name is {name} and I like {insert_cats}"
 console.log(output) //Hello, my name is Wooboo and I like cats
 ```
 # Using the built-in modifiers
-There are a few built in modifiers, that can be imported from `"@fileglass/woobo/modifiers"`. <br>
+There are a few built in modifiers, that can be imported from `@fileglass/woobo/modifiers`. <br>
 `UpperCase`: Uppercases the whole string <br>
 `LowerCase`: Lowercases the whole string <br>
 `CapitalizeFirst`: Capitalizes the first letter of the string <br>
