@@ -17,6 +17,14 @@ const output = formatter.fmt("Hello, my name is {name} and I like {insert_cats}"
 
 console.log(output) //Hello, my name is Wooboo and I like cats
 ```
+
+# Modifying by array
+```ts
+const formatter = new Wooboo("CATS");
+const formatted = formatter.fmtArr("I love $0, because $1", ["cats", "they are cute"])
+console.log(formatted) // I love cats, because they are cute
+```
+
 # Using the built-in modifiers
 There are a few built in modifiers, they are stored in the `Wooboo.Modifiers` static property. (NOTE: *Whole string* means the `value` property of the current token) <br>
 <br>

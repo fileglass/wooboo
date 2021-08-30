@@ -120,4 +120,10 @@ export default class Wooboo {
     public get lookupToken() {
         return this.token
     }
+	public fmtArr(str: string, ...data: string[]): string {
+		data.forEach((word, idx) => {
+			str = str.replace(`\$${idx}`, word);
+		});
+		return str;
+	}
 }
