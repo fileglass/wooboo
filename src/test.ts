@@ -1,4 +1,4 @@
-import Wooboo, {resolveRef} from "./wooboo"
+import Wooboo from "./wooboo"
 import Localizer from "./modifiers/locales";
 
 
@@ -12,7 +12,7 @@ const locales = {["en"]: englishLocales, ["hu"]: hungarianLocales}
 const localizer = new Localizer(locales, (locale, key, lang) => {
 	return `LOC_${locale}`
 })
-const localeFormatter = new Wooboo("LOCALE", [{modifier: localizer, match: "LOC_*"}])
+const localeFormatter = new Wooboo("LOCALE", [{modifier: localizer}])
 localeFormatter.setMeta("LOCALE", "en") //set metadata for the formatter (the modifier will get the current locale from this)
 function format() {
 	return localeFormatter.fmt(`{${localizer.usePrefixer("number_disp")}}: {number}`, {

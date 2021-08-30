@@ -10,7 +10,7 @@ export interface Anchor {
 
 export interface GlobalModifier {
 	modifier: WooboModifier,
-	match: string[] | string
+	match?: string[] | string
 }
 
 export interface WooboModifier {
