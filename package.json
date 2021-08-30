@@ -1,9 +1,10 @@
 {
   "name": "@fileglass/wooboo",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "A string modifier library",
   "main": "dist/wooboo.js",
   "author": "Fileglass",
+    "repository": "https://github.com/fileglass/wooboo",
   "license": "MIT",
   "private": false,
   "scripts": {
@@ -17,5 +18,11 @@
   },
   "dependencies": {
     "micromatch": "^4.0.4"
-  }
+  },
+   "declaration": true,
+    "types": "dist/wooboo.d.ts",
+    "prepublish": "tsc",
+    "publishConfig": {
+      "access": "public"
+    }
 }

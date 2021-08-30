@@ -6,20 +6,19 @@ Fast string formatter on steroids
 # Usage
 ```ts
 import Wooboo from "@fileglass/wooboo"
-import {CapitalizeFirst} from "@fileglass/woobo/modifiers"
 
 //Create an instance
 const formatter = new Wooboo("CATS");
 
 const output = formatter.fmt("Hello, my name is {name} and I like {insert_cats}", {
-	"name": {value: "wooboo", modifiers: [new CapitalizeFirst()]},
+	"name": {value: "wooboo", modifiers: [new Wooboo.Modifiers.CapitalizeFirst()]},
 	"insert_cats": {value: "cats"}
 })
 
 console.log(output) //Hello, my name is Wooboo and I like cats
 ```
 # Using the built-in modifiers
-There are a few built in modifiers, that can be imported from `@fileglass/woobo/modifiers`. (NOTE: *Whole string* means the `value` property of the current token) <br>
+There are a few built in modifiers, they are stored in the `Wooboo.Modifiers` static property. (NOTE: *Whole string* means the `value` property of the current token) <br>
 <br>
 `UpperCase`: Uppercases the whole string <br>
 `LowerCase`: Lowercases the whole string <br>
@@ -51,7 +50,6 @@ export default class Localizer implements WooboModifier {
 ## Using the `Localizer` modifier
 *localizer.ts*
 ```ts
-import {Localizer} from "@fileglass/woobo/modifiers"
 import Wooboo from "@fileglass/woobo"
 // Create locales
 const englishLocales = new Map<string, string>()
@@ -66,7 +64,7 @@ localeFormatter.setMeta("LOCALE", "en") // Set metadata for the formatter (the m
 function format() {
 	return localeFormatter.fmt("{number_disp}: {number}", {
 		"number": {value: Math.random()},
-		"number_disp": {value: "can be ignored, the localizer will take care of it", modifiers: [new Localizer(locales)]}
+		"number_disp": {value: "can be ignored, the localizer will take care of it", modifiers: [new Wooboo.Modifiers.Localizer(locales)]}
 	})
 }
 
@@ -90,7 +88,7 @@ localizer.setMeta("LOCALE", "en") // Change back the locale to English
 function format() {
 	return localeFormatter.fmt("{number_disp}: {number}", {
 		"number": {value: Math.random()},
-		"number_disp": {value: "can be ignored, the localizer will take care of it", modifiers: [new Localizer(locales)]}
+		"number_disp": {value: "can be ignored, the localizer will take care of it", modifiers: [new Wooboo.Modifiers.Localizer(locales)]}
 	})
 }
 console.log(format()) // The number is: [random number between 0 and 1]
@@ -128,7 +126,7 @@ While the examples above work, always passing `modifiers: [new Localizer(locales
 Global modifiers will be called on *every* token in the current class.
 ##### Applying global modifiers
 ```ts
-const localizer = new Localizer(locales, "LOC_")
+const localizer = new Wooboo.Modifiers.Localizer(locales, "LOC_")
 const localeFormatter = new Wooboo("LOCALE", [{modifier: localizer, match: "LOC_*"}])
 ```
 The code above: <br>
@@ -146,7 +144,7 @@ In the example above, everything that starts with `LOC_` will be matched. (Thats
 `value`: The locale value in the current language (`false` if used from the hook ) <br>
 `lang`: The current locale language that the function is being executed on (`undefined` if used from the hook)
 ```ts
-const localizer = new Localizer(locales, (locale, value, lang) => {
+const localizer = new Wooboo.Modifiers.Localizer(locales, (locale, value, lang) => {
 	return `LOC_${locale}`
 })
 ```

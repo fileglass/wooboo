@@ -1,6 +1,7 @@
 import Tokenize from "./engine/tokenizer"
 import ApplyModifiers from "./engine/applymodifiers";
 import ApplyGlobalModifiers from "./engine/applyglobalmodifiers";
+import {Modifiers} from "./modifiers"
 
 export interface Anchor {
     value: string | number | boolean
@@ -53,6 +54,7 @@ export function resolveRef(token: string) {
  */
 export default class Wooboo {
     private meta = new Map<string, string>()
+		public static Modifiers = Modifiers
     private readonly globalModifiers: GlobalModifier[] = []
 
     /**
