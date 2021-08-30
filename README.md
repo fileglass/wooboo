@@ -19,7 +19,8 @@ const output = formatter.fmt("Hello, my name is {name} and I like {insert_cats}"
 console.log(output) //Hello, my name is Wooboo and I like cats
 ```
 # Using the built-in modifiers
-There are a few built in modifiers, that can be imported from `@fileglass/woobo/modifiers`. (NOTE: *Whole string* means the `value` property of the current token)<br>
+There are a few built in modifiers, that can be imported from `@fileglass/woobo/modifiers`. (NOTE: *Whole string* means the `value` property of the current token) <br>
+<br>
 `UpperCase`: Uppercases the whole string <br>
 `LowerCase`: Lowercases the whole string <br>
 `CapitalizeFirst`: Capitalizes the first letter of the string <br>
@@ -124,7 +125,7 @@ const localizer = self.resolveFormatter("LOCALIZER")
 
 ## Using the Localizer efficiently (global modifiers)
 While the examples above work, always passing `modifiers: [new Localizer(locales)]` can get tedious. To avoid this, Wooboo has a feature called *global modifiers*. <br>
-Global modifiers will be called on every token in the current class.
+Global modifiers will be called on *every* token in the current class.
 ##### Applying global modifiers
 ```ts
 const localizer = new Localizer(locales, "LOC_")
