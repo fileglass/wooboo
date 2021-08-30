@@ -1,10 +1,17 @@
 import Tokenize from "./engine/tokenizer"
 import ApplyModifiers from "./engine/applymodifiers";
+import ApplyGlobalModifiers from "./engine/applyglobalmodifiers";
 
 export interface Anchor {
     value: string | number | boolean
     modifiers?: WooboModifier[]
 }
+
+export interface GlobalModifier {
+	modifier: WooboModifier,
+	match: string[] | string
+}
+
 export interface WooboModifier {
 	/**
 	 * Modifer executor method
@@ -46,15 +53,15 @@ export function resolveRef(token: string) {
  */
 export default class Wooboo {
     private meta = new Map<string, string>()
-    private readonly defaultModifiers: WooboModifier[] = []
+    private readonly globalModifiers: GlobalModifier[] = []
 
     /**
      *
      * @param token Has to be unique around every instance
-     * @param defaultModifiers An array of modifiers that will applied to every token in this class
+     * @param globalModifiers An array of modifiers that will applied to every token in this class
      */
-    constructor(private readonly token: string, defaultModifiers?: WooboModifier[]) {
-        this.defaultModifiers = defaultModifiers || []
+    constructor(private readonly token: string, globalModifiers?: GlobalModifier[]) {
+        this.globalModifiers = globalModifiers || []
         WoobooRefs.registerRef(this.token, this)
     }
 
@@ -69,7 +76,8 @@ export default class Wooboo {
         tokens.forEach(tok => {
             const anchor = data[tok]
             if (anchor) {
-                const value = ApplyModifiers(str, anchor.value, tok, this, (anchor.modifiers || []).concat(this.defaultModifiers))
+            		let value = ApplyGlobalModifiers(str, anchor.value, tok, this, this.globalMods)
+                value = ApplyModifiers(str, value, tok, this, anchor.modifiers)
                 final = final.replace(`{${tok}}`, value)
             }
         })
@@ -88,12 +96,12 @@ export default class Wooboo {
     /**
      * Returns the default modifiers for this class
      */
-    public get defaultMods() {
-        return this.defaultModifiers
+    public get globalMods() {
+        return this.globalModifiers
     }
 
-    public addDefaultModifier(mod: WooboModifier) {
-        this.defaultModifiers.push(mod)
+    public useGlobalModifier(mod: GlobalModifier) {
+        this.globalModifiers.push(mod)
     }
 
     /**

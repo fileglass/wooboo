@@ -2,6 +2,7 @@
 Fast string formatter on steroids
 
 
+
 # Usage
 ```ts
 import Wooboo from "@fileglass/wooboo"
@@ -120,4 +121,33 @@ const localizer = self.resolveFormatter("LOCALIZER")
 	}
 }
 ```
+
+## Using the Localizer efficiently (global modifiers)
+While the examples above work, always passing `modifiers: [new Localizer(locales)]` can get tedious. To avoid this, Wooboo has a feature called *global modifiers*. <br>
+Global modifiers will be called on every token in the current class.
+##### Applying global modifiers
+```ts
+const localizer = new Localizer(locales, "LOC_")
+const localeFormatter = new Wooboo("LOCALE", [{modifier: localizer, match: "LOC_*"}])
+```
+The code above: <br>
+1. Creates a new Localizer instance, assigns the `LOC_` prefix to every locale passed to it
+2. Creates a new formatter instance, and sets the previously created Localizer instance as a global modifier
+##### What does `match` mean?
+The `match` property defines a pattern, that if matched (on the token, not on the input string) will trigger the modifier. ([How to match patterns](https://github.com/micromatch/micromatch#matching-features)) <br>
+In the example above, everything that starts with `LOC_` will be matched. (Thats why we prefixed all the locales with `LOC_`)
+### Notes:
+1. The `Localizer` class exposes a hook called `usePrefixer` that will prefix/format the string based on the prefix/formatter passed to the constructor <br>
+2. There are use cases where you might want to use more advanced prefixes, in these cases the constructor accepts a function as the prefix, that will be called on every locale.
+#### Usage:
+**Params**: <br>
+`locale`: The locale key  (the inputted string if used from the hook) <br>
+`value`: The locale value in the current language (`false` if used from the hook ) <br>
+`lang`: The current locale language that the function is being executed on (`undefined` if used from the hook)
+```ts
+const localizer = new Localizer(locales, (locale, value, lang) => {
+	return `LOC_${locale}`
+})
+```
+
 
