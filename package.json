@@ -1,0 +1,17 @@
+{
+  "name": "@fileglass/wooboo",
+  "version": "1.0.0",
+  "description": "A string modifier library",
+  "main": "dist/wooboo.js",
+  "author": "Fileglass",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "build": "tsc --build --verbose",
+    "start": "node ."
+  },
+  "devDependencies": {
+    "@types/node": "^16.7.6",
+    "typescript": "^4.4.2"
+  }
+}
