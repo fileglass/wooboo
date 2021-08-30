@@ -82,7 +82,7 @@ If you want to nest formatters, or use them across different files, Wooboo expos
 ```ts
 import {resolveRef} from "@fileglass/woobo"
 
-const localizer = resolveRef("LOCALIZER")! // Resolve the reference to the `LOCALE` formatter, and mark it as defined
+const localizer = resolveRef("LOCALIZER")! // Resolve the reference to the `LOCALIZER` formatter, and mark it as defined
 localizer.setMeta("LOCALE", "en") // Change back the locale to English
 
 function format() {
