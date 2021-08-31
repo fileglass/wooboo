@@ -1,6 +1,6 @@
 {
   "name": "@fileglass/wooboo",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A string modifier library",
   "main": "dist/wooboo.js",
   "author": "Fileglass",

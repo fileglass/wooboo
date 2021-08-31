@@ -10,7 +10,7 @@ import Wooboo from "@fileglass/wooboo"
 //Create an instance
 const formatter = new Wooboo("CATS");
 
-const output = formatter.fmt("Hello, my name is {name} and I like {insert_cats}", {
+const output = await formatter.fmt("Hello, my name is {name} and I like {insert_cats}", {
 	"name": {value: "wooboo", modifiers: [new Wooboo.Modifiers.CapitalizeFirst()]},
 	"insert_cats": {value: "cats"}
 })
@@ -36,6 +36,7 @@ There are a few built in modifiers, they are stored in the `Wooboo.Modifiers` st
 Every token accepts a `modifiers` array (example above) <br>
 ## Creating custom modifiers:
 Every modifier has to implement the `WooboModifier` interface, exported from the root of the module. <br>
+The execute method can return a string, or a Promise with a string. <br>
 Example:
 ```ts
 export default class Localizer implements WooboModifier {
@@ -69,16 +70,16 @@ const locales = {["en"]: englishLocales, ["hu"]: hungarianLocales}
 // Initiate the formatter
 const localeFormatter = new Wooboo("LOCALIZER")
 localeFormatter.setMeta("LOCALE", "en") // Set metadata for the formatter (the modifier will get the current locale from this)
-function format() {
-	return localeFormatter.fmt("{number_disp}: {number}", {
+async function format() {
+	return await localeFormatter.fmt("{number_disp}: {number}", {
 		"number": {value: Math.random()},
 		"number_disp": {value: "can be ignored, the localizer will take care of it", modifiers: [new Wooboo.Modifiers.Localizer(locales)]}
 	})
 }
 
-console.log(format()) // The number is: [random number between 0 and 1]
+format().then(result => console.log(result)) // The number is: [random number between 0 and 1]
 localeFormatter.setMeta("LOCALE", "hu") // Update the locale to Hungarian
-console.log(format()) // A szám: [random number between 0 and 1]
+format().then(result => console.log(result)) // A szám: [random number between 0 and 1]
 ```
 
 # Reusing formatters
@@ -93,13 +94,13 @@ import {resolveRef} from "@fileglass/woobo"
 const localizer = resolveRef("LOCALIZER")! // Resolve the reference to the `LOCALIZER` formatter, and mark it as defined
 localizer.setMeta("LOCALE", "en") // Change back the locale to English
 
-function format() {
-	return localeFormatter.fmt("{number_disp}: {number}", {
+async function format() {
+	return await localeFormatter.fmt("{number_disp}: {number}", {
 		"number": {value: Math.random()},
 		"number_disp": {value: "can be ignored, the localizer will take care of it", modifiers: [new Wooboo.Modifiers.Localizer(locales)]}
 	})
 }
-console.log(format()) // The number is: [random number between 0 and 1]
+format().then(result => console.log(result)) // The number is: [random number between 0 and 1]
 ```
 
 #### Using the `resolveFormatter` method in an existing instance

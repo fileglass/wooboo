@@ -23,7 +23,7 @@ export interface WooboModifier {
 	 * @param originalValue The original value of `value` before any modifiers were applied
 	 * @param self The class that the current modifier is executed in
 	 */
-    execute(val: string, rawValue: string | number | boolean, token: string, rawString: string, originalValue: string | number | boolean, self: Wooboo): string
+    execute(val: string, rawValue: string | number | boolean, token: string, rawString: string, originalValue: string | number | boolean, self: Wooboo): string | Promise<string>
 }
 
 
@@ -72,17 +72,17 @@ export default class Wooboo {
       * @param str String to format
      * @param data Token => data lookup map
      */
-    public fmt(str: string, data: Anchors) {
+    public async fmt(str: string, data: Anchors) {
         const tokens = Tokenize(str)
         let final = str
-        tokens.forEach(tok => {
-            const anchor = data[tok]
-            if (anchor) {
-            		let value = ApplyGlobalModifiers(str, anchor.value, tok, this, this.globalMods)
-                value = ApplyModifiers(str, value, tok, this, anchor.modifiers)
-                final = final.replace(`{${tok}}`, value)
-            }
-        })
+				for (let tok of tokens) {
+					const anchor = data[tok]
+					if (anchor) {
+						let value = await ApplyGlobalModifiers(str, anchor.value, tok, this, this.globalMods)
+						value = await ApplyModifiers(str, value, tok, this, anchor.modifiers)
+						final = final.replace(`{${tok}}`, value)
+					}
+				}
         return final
     }
 

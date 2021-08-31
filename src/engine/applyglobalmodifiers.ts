@@ -1,12 +1,13 @@
 import Wooboo, {GlobalModifier} from "../wooboo";
 import micromatch from "micromatch"
 
-export default function ApplyGlobalModifiers(fullstr: string, repl: string | number | boolean, token: string, self: Wooboo, modifiers: GlobalModifier[] = []) {
+export default async function ApplyGlobalModifiers(fullstr: string, repl: string | number | boolean, token: string, self: Wooboo, modifiers: GlobalModifier[] = []) {
 	const origVal = repl
-	modifiers.forEach(mod => {
+
+	for (const mod of modifiers) {
 		if (micromatch.isMatch(`${token}`, mod.match || "*") || !mod.match) {
-			repl = mod.modifier.execute(`${repl}`, repl, token, fullstr, origVal, self)
+			repl = await mod.modifier.execute(`${repl}`, repl, token, fullstr, origVal, self)
 		}
-	})
+	}
 	return repl as string
 }
