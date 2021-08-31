@@ -30,7 +30,7 @@ export interface WooboModifier {
 export type Anchors= {[key: string]: Anchor}
 
 
-class WoobooRefs {
+abstract class WoobooRefs {
     private static refs = new Map<string, Wooboo>()
 
     public static registerRef(token: string, instance: Wooboo) {
