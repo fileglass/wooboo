@@ -15,7 +15,7 @@ export interface GlobalModifier {
 
 export interface WooboModifier {
 	/**
-	 * Modifer executor method
+	 * Modifier executor method
 	 * @param val The stringified value passed to the `value` property
 	 * @param rawValue The raw value passed to the `value` property
 	 * @param token The token without the `{}`
@@ -50,7 +50,7 @@ export function resolveRef(token: string) {
 }
 
 /**
- * Core Woobo class
+ * Core Wooboo class
  */
 export default class Wooboo {
     private meta = new Map<string, string>()
@@ -60,7 +60,7 @@ export default class Wooboo {
     /**
      *
      * @param token Has to be unique around every instance
-     * @param globalModifiers An array of modifiers that will applied to every token in this class
+     * @param globalModifiers An array of modifiers that will be applied to every token in this class
      */
     constructor(private readonly token: string, globalModifiers?: GlobalModifier[]) {
         this.globalModifiers = globalModifiers || []
@@ -120,6 +120,12 @@ export default class Wooboo {
     public get lookupToken() {
         return this.token
     }
+
+	/**
+	 * Formats a string from an array `fmtArr("$0 is $1", ["Fileglass", "cool"])`
+	 * @param str Input string
+	 * @param data Array
+	 */
 	public fmtArr(str: string, ...data: string[]): string {
 		data.forEach((word, idx) => {
 			str = str.replace(`\$${idx}`, word);
